@@ -24,7 +24,6 @@ Install Debian on 2 Servers and assign the Name and IP Address as mentioned belo
 **IP Address**: 192.168.1.11
 
 **Firewall**: Disable  
-  Command to disable Firewall: **sudo ufw disable**
   
 **Internet**: Enable
 
