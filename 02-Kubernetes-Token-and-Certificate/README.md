@@ -62,5 +62,80 @@ kubectl get nodes
   ```  
  
 # Topic 02: Kubernetes Token and Certificate
+## Tokens
+### List Tokens
+Newly created default Tokens are only available for 24 hrs. After 24 hrs, Tokens will get deleted automatically. Therefore, if you don't see a Token then it means that the Token is past 24 hrs and is deleted. 
+```
+kubeadm token list
+```
+
+### Create a New Token
+Default token will be created for 24 hours if no TTL is mentioned. 
+```
+kubeadm token create
+```
+### Create a Token with TTL (Total Time to Live)
+```
+# Below mentioned Command will create a Token with TTL of 30 m
+kubeadm token create --TTL 30m
+
+# Below mentioned Command will create a Token with TTL of FOREVER
+kubeadmin token create --TTL 0
+```
+
+### Delete a Token
+```
+# The below mentioned command is to delete the Token. Copy and paste the Token Name that you wanted to Delete. 
+kubeadm token delete <token_Name>
+```
+## Certifiates
+```
+# To retrieve an existing Certificate run the below mentioned command
+openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+```
+
+### Skip CA Verification
+- Join the Worker to Master by skipping CA Verification.
+- It is not recommended to run this in the Production Environment.
+
+```
+# The below-mentioned command can be used to join the Worker to Kubernetes without CA verification but it is not recommended. 
+kubeadm join --token abcdef.1234567890abcdef --discovery-token-unsafe-skip-ca-verification 192.168.1.160:6443
+```
+
+# Topic 03: Join Kubernetes and Approvals
+## Join Kubernetes
+### Join using a File
+```
+sudo kubeadm join --discovery-file path/to/file.conf (local file)
+sudo kubeadm join --discovery-file https://url/file.conf (remote HTTPS URL)
+```
+### Retrieve Kubeadm Join command to join a Worker to Kubernetes
+```
+# If you are not sure about the complete kubeadm join command then run the following command on the Master to get the complete join command with Token and CSR. 
+sudo kubeadm token create --print-join-command
+```
+## Manual Vs Auto Approval
+### Auto Approval List
+```
+# To see the list of auto approval requests, run the below-mentioned command
+sudo kubectl get csr
+```
+### Turn Off Auto Approval
+
+```
+# Go to the Master Node and run the following command
+kubectl delete clusterrolebinding kubeadm:node-autoapprove-bootstrap
+
+# Use the below mentioned command to check the Pending requests for CSR approval
+watch kubectl get csr
+
+# To check from where the request has come and more details
+kubectl describe csr <CSR_Name>
+
+# To approve the CSR request to join the Worker to the Kubernetes
+kubectl certificate approve <CSR Name>
+
+```
 
 
