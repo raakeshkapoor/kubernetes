@@ -1,4 +1,5 @@
 # Install Kubernetes
+Kubernetes (K8s) is a powerful open-source platform for managing containerized workloads and services. This guide will walk you through installing Kubernetes on a Debian server and setting up a two-node cluster for testing or development purposes. Let’s get started.
 
 ## Step-01: Configure Host-Name on both the Nodes
 - ***Configure Host-Name on Control-Plane (Master)***
