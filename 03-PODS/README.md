@@ -54,9 +54,10 @@ sudo kubectl explain pod
 ```
 ### Create a YAML File to create a POD
 ```
+# Step 01: Create the YAML File
 sudo vim ws01.yml
 
-# Copy and Paste the Code
+# Step 02: Copy and Paste the Code
 apiVersion: v1  
 kind: Pod             # As we are creating POD, therefore POD is mentioned
 metadata:             # Details of the POD. Metadata is the data about POD
@@ -66,11 +67,11 @@ spec:
     - name: web-server
       image: nginx
 
-```
-### Save the File and Run the Command to Create the POD
-```
-# Save the file and run the command to create the POD
+# Step 03: Save the File and Run the Command to Create the POD
 sudo kubectl apply -f ws01.yml
+
+# Step 04: List all the PODs
+sudo kubectl get pods -o wide
 ```
 
 
