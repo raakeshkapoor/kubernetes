@@ -1,8 +1,8 @@
-# Kubernetes Token and Certificate
+# Topic 01: Reset Master and Worker
 
 Kubernetes Token is used to join the node to the Master to make it a Worker. 
 
-## Command to Join Worker 
+### Command to Join Worker 
 The command required to connect the Worker Node to Kubernetes is given below:
 - Replace the Token and CA details based on the **kubeadm init** output
 
@@ -11,34 +11,56 @@ kubeadm join 192.168.1.160:6443 --token kkcj7q.rz5w3km4ciaeuxpv \
 	--discovery-token-ca-cert-hash sha256:c5ab4e171b176ae1ed3457d7e86bb9e9272f55252947adabaca757ae3555
 ```
 
-## Reset Worker
-- ## This will make the worker Not-Ready but will not delete the Node. 
+### Reset Worker
+- This will make the worker Not-Ready but will not delete the Node. 
 ```
 kubeadm reset -f
 ```
-- ## Delete the Not-Ready Worker Node.
+- Delete the Not-Ready Worker Node.
   Enter the Node Name that you wanted to Delete. 
 ```
 kubeadm delete node <Node-Name>
 ```
-- ## Re-Join Worker to Kubernetes
+- Re-Join Worker to Kubernetes
   -  Re-Join the Worker Node to Kubernetes by running the below mentioned command.
   -  Replace the Token with your Token and the CA with your CA details. 
 ```
 kubeadm join 192.168.1.160:6443 --token 5ez717.q8q537t2tn4e98vg --discovery-token-ca-cert-hash sha256:3e5a51ca75a7184722e9bc36bcb90c62b220493c1b4a6bec940b359171b83031
 ```
-- ## Verify Worker
+- Verify Worker
 ```
 kubectl get nodes
 ```
 
-# Reset the Master
+### Reset the Master
+- Resetting Master will remove all the etcd database, certificates, etc. All the data of Master, Worker, PODs, etc will be deleted. All the Worker are required to re-join the Kubernetes and all the PODs are required to be re-created. 
 ```
 kubeadm  reset -f
 ```
 
-# Initialize the Master Node again
+-  Initialize the Master Node again
+```
 kubeadm init
+```
+- Verify all the NODEs
+	- This command will only show the newly initialized Master Node. It will not show the Worker Nodes.  	
+```
+kubectl get nodes
+```
 
-# To Join the Worker Node to Kubernetes by running the below mentioned command. Replace the Token with your Token and the CA with your CA details. 
-kubeadm join 192.168.1.160:6443 --token 5ez717.q8q537t2tn4e98vg --discovery-token-ca-cert-hash sha256:3e5a51ca75a7184722e9bc36bcb90c62b220493c1b4a6bec940b359171b83031
+- Re-join Worker to kubernetes
+	- Worker Node was joined to the old Kubernetes Cluster and it still has details of the old Kubernetes Cluster. 
+	- To re-join the Worker to Kubernetes, it is required to reset the Worker Node.
+ 	- If we try to reset the Worker without resetting then it will show an error message.
+  	- Follow the below mentioned command to first reset the Worker and then re-join to Kubernetes.
+  ```
+  # Command to reset the Worker Node. Run this command on the Worker Node
+  kubectl reset -f
+
+  # Re-Join the Worker to Kubernetes. Replace the Token and CA based on the output of kubeadm init command. 
+  kubeadm join 192.168.1.160:6443 --token 5ez717.q8q537t2tn4e98vg --discovery-token-ca-cert-hash sha256:3e5a51ca75a7184722e9bc36bcb90c62b220493c1b4a6bec940b359171b83031
+  ```  
+ 
+# Topic 02: Kubernetes Token and Certificate
+
+
