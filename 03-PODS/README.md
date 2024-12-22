@@ -79,6 +79,18 @@ sudo kubectl get pods -o wide
 # ws01.yml is the file name that we have used while creating the PODs. Replace the name with the file name used to created the PODs. 
 sudo kubectl delete -f ws01.yml
 ```
-
+## 1.3 Access POD/Container
+### 1.3.1 Access POD with Single Container
+```
+kubectl exec -it web-server /bin/bash
+```
+# 1.3.2 Access POD with Multiple Containers
+- If we have multiple containers and we want to access a single container then use the below mentioned command.
+  - In the below-mentioned command the first **web-server** is the name of the POD.
+  - The second **web-server** is the name of the container in the **Web-Server** POD.
+  - We can check the name of the container by using the describe command i.e. **kubectl describe pod web-server**.
+```
+kubectl exec -it web-server -c web-server /bin/bash
+```
 
 
