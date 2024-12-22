@@ -4,26 +4,26 @@
 ### 1.1.1 Command to Create PODs
 - Below mentioned command will create a POD with the name of web-server by using the image of NGINX. 
 
-```
-sudo kubectl run web-server --image=nginx
+```sh
+kubectl run web-server --image=nginx
 ```
 ### 1.1.2 List All the PODs
-```
+```sh
 # List all the PODs running in Default Namespace
-sudo kubectl get pods
+kubectl get pods
 
 # Get IP Address of PODs and Name of Worker on which POD is running
-sudo kubectl get pods -o wide
+kubectl get pods -o wide
 ```
 
 ### 1.1.3 Describe POD
 - This will describe the POD
-```
-sudo kubectl describe pod <POD Name>
+```sh
+kubectl describe pod <POD Name>
 ```
 
 ### 1.1.4 List all the running Containers and their Count
-```
+```sh
 kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec['initContainers', 'containers'][*].image}" |\
 tr -s '[[:space:]]' '\n' |\
 sort |\
@@ -36,24 +36,24 @@ kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec.containers[*].nam
 
 ### 1.1.5 Delete POD
 - Delete a Single POD
-```
-sudo kubectl delete pod <POD Name>
+```sh
+kubectl delete pod <POD Name>
 ```
 
 - Delete all the PODs
-```
-sudo kubectl delete pods --all
+```sh
+kubectl delete pods --all
 ```
 
 ## 1.2 PODs Using YAML File
 
 ### 1.2.1 Check the Format of POD YAML File
-```
+```sh
 # Run the command if you are not sure about the Format of the YAML file
-sudo kubectl explain pod
+kubectl explain pod
 ```
 ### 1.2.2 Create a YAML File to create a POD
-```
+```sh
 # Step 01: Create the YAML File
 sudo vim ws01.yml
 
@@ -68,20 +68,20 @@ spec:
       image: nginx
 
 # Step 03: Save the File and Run the Command to Create the POD
-sudo kubectl apply -f ws01.yml
+kubectl apply -f ws01.yml
 
 # Step 04: List all the PODs
-sudo kubectl get pods -o wide
+kubectl get pods -o wide
 ```
 ### 1.2.3 Delete PODs
 
-```
+```sh
 # ws01.yml is the file name that we have used while creating the PODs. Replace the name with the file name used to created the PODs. 
-sudo kubectl delete -f ws01.yml
+kubectl delete -f ws01.yml
 ```
 ## 1.3 Access POD/Container
 ### 1.3.1 Access POD with Single Container
-```
+```sh
 kubectl exec -it web-server /bin/bash
 ```
 # 1.3.2 Access POD with Multiple Containers
@@ -89,7 +89,7 @@ kubectl exec -it web-server /bin/bash
   - In the below-mentioned command the first **web-server** is the name of the POD.
   - The second **web-server** is the name of the container in the **Web-Server** POD.
   - We can check the name of the container by using the describe command i.e. **kubectl describe pod web-server**.
-```
+```sh
 kubectl exec -it web-server -c web-server /bin/bash
 ```
 
