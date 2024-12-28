@@ -96,7 +96,7 @@ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outfor
 
 ### Skip CA Verification
 - Join the Worker to Master by skipping CA Verification.
-- It is not recommended to run this in the Production Environment.
+- Running this command in the Production Environment is not recommended.
 
 ```
 # The below-mentioned command can be used to join the Worker to Kubernetes without CA verification but it is not recommended. 
@@ -105,21 +105,24 @@ kubeadm join --token abcdef.1234567890abcdef --discovery-token-unsafe-skip-ca-ve
 
 # Topic 03: Join Kubernetes and Approvals
 ## Join Kubernetes
-### Join using a File
+### Join Worker using a File
 ```
 sudo kubeadm join --discovery-file path/to/file.conf (local file)
 sudo kubeadm join --discovery-file https://url/file.conf (remote HTTPS URL)
 ```
 ### Retrieve Kubeadm Join command to join a Worker to Kubernetes
-```
-# If you are not sure about the complete kubeadm join command then run the following command on the Master to get the complete join command with Token and CSR. 
+
+```sh
+# If you are not sure about the complete kubeadm join command then run the following command on the Master to get the complete join command with Token and CSR.
+# This command also creates a new Token
+
 sudo kubeadm token create --print-join-command
 ```
 ## Manual Vs Auto Approval
 ### Auto Approval List
 ```
 # To see the list of auto approval requests, run the below-mentioned command
-sudo kubectl get csr
+kubectl get csr
 ```
 ### Turn Off Auto Approval
 
