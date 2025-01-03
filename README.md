@@ -96,7 +96,7 @@ spec:
       image: busybox:latest
       command: ["sh", "-c", "while true; do echo Hello from Busybox; sleep 10; done"]
       ports:
-        - containerPort:8080 
+        - containerPort: 8080 
 ```
 - Create the POD
 ```sh
