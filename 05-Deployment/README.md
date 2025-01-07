@@ -12,10 +12,10 @@ kubectl create deployment nginx --image=nginx:1.20
 # Define Replicas for Deployment. This will create 4 replicas
 kubectl create deployment nginx --image=nginx:1.20 --replicas=4
 
-# Scale-up Replicas
+# Scale-out Replicas
 kubectl scale deployment nginx --replicas=6
 
-# Scale-down Replicas
+# Scale-in Replicas
 kubectl scale deployment nginx --replicas=3
 
 # Change Image of Deployment
@@ -68,7 +68,7 @@ spec:
 kubectl apply -f dep.yml
 
 ```
-## Scale Out or Scale In PODs
+## Scale-out or Scale-in PODs
 
 ```sh
 # Create the YAML file to create 3 Replicas
@@ -103,7 +103,7 @@ spec:
 
 kubectl apply -f dep.yml
 
-# Scale Out
+# Scale-out
 # Open the dep.yml file and change the replicas to 10
 
 apiVersion: apps/v1
