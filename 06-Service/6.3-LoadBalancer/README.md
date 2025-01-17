@@ -105,7 +105,7 @@ metadata:
   name: lb
 spec:
   selector:
-    app: db-server
+    app: web-server
   ports:
     - port: 80
       targetPort: 80
