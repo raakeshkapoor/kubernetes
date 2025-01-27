@@ -49,3 +49,71 @@ sudo service ufw status
 sudo apt install nfs-common -y
 
 ```
+
+## Create YAML Files for PV, PVC and POD
+
+```sh
+# Create the PV file
+
+vim pv.yml
+
+# Copy and paste the below mentioned code to the YAML file. 
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv001
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: slow
+  nfs:
+    path: /mnt/nfsshare           # Path of NFS to mount
+    server: 192.168.1.170         # IP Address of the NFS Server
+
+# Create the PVC File and paste the below mentioned code
+
+vim pvc.yml
+
+# Paste the below mentioned Code in the pvc.yml file. 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volclaim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: slow
+
+# Create the POD YAML file and save the below mentioned code in the pod.yml file
+vim pod.yml
+
+# Paste the below mentioned code in the pod.yml file
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: my-container
+      image: nginx:latest
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: my-volume
+  volumes:
+    - name: my-volume
+      persistentVolumeClaim:
+        claimName: volclaim
+
+
+```
+
