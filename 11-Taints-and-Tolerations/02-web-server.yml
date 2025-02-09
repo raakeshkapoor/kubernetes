@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web-server
+  name: web-server
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      labels:
+        app: web-server
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      tolerations:
+        - key: "team"
+          operator: "Equal"
+          value: "sales"
+          effect: "NoSchedule"
+      nodeSelector:
+        team: sales         # Match the label assigned to the Node
